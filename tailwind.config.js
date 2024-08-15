@@ -6,7 +6,12 @@ export default {
     "./node_modules/flowbite/**/*.js"
   ],
   theme: {
-    extend: {},
+    extend: {
+      screens: {
+        'lgProduct' : '1280px',
+        'mdProduct' : '940px'
+      }
+    },
   },
   plugins: [
     require('flowbite/plugin')

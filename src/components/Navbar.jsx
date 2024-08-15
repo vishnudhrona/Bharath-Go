@@ -3,19 +3,37 @@ import 'flowbite'
 import { Link } from 'react-router-dom'
 import { HiMiniInbox, HiMiniUser, HiShoppingCart } from "react-icons/hi2";
 import { FaCircleUser } from "react-icons/fa6";
-import Fake from './Fake';
 import { HiArchive } from 'react-icons/hi';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { cartClose } from '../Redux/Reducers/productSlice';
 
 
 const Navbar = () => {
-    // const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-    // const toggleMenu = () => {
-    //     setIsMenuOpen(!isMenuOpen);
-    // };
-
     const [dropDown, setDropdown] = useState(false)
+    const [productCount, setProductCount] = useState(0);
+
+    const dispatch = useDispatch()
+
+    const updateProductCount = () => {
+      const products = JSON.parse(localStorage.getItem('products')) || [];
+      setProductCount(products.length);
+  };
+    
+  useEffect(() => {
+    // Initial update on mount
+    updateProductCount();
+
+    // Set up an interval to periodically check localStorage
+    const intervalId = setInterval(updateProductCount, 1000);
+
+    // Clean up interval on component unmount
+    return () => clearInterval(intervalId);
+}, []);
+
+    const handleCart = () => {      
+      dispatch(cartClose(true))
+    }
 
     return (
         <>
@@ -34,7 +52,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
-                  href="#"
+                  to={'/'}
                   className="block py-1 text-sm font-light"
                 >
                   All
@@ -103,6 +121,7 @@ const Navbar = () => {
                </li>
                <li>
                  <Link
+                 to={'/myorders'}
                    className="block py-2 text-sm font-light"
                  >
                      <div className='flex gap-2'>
@@ -124,11 +143,12 @@ const Navbar = () => {
                </li>
                <li>
                  <Link
+                 onClick={() => handleCart()}
                    className="block pt-2  font-light"
                  >
                      <div className='flex gap-2'>
  
-                   <span className='text-2xl'><HiShoppingCart /></span><span className='text-sm'>{1}</span>
+                   <span className='text-2xl'><HiShoppingCart /></span><span className='text-sm'>{productCount}</span>
                      </div>
                  </Link>
                </li>
@@ -151,6 +171,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
+                to={'/myorders'}
                   className="block py-1 text-sm font-light"
                 >
                   My Orders
@@ -165,11 +186,12 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
+                  onClick={() => handleCart()}
                   className="block py-1 text-2xl font-light"
                 >
                     <div className='flex gap-2'>
 
-                  <span><HiShoppingCart /></span><span className='text-sm'>{1}</span>
+                  <span><HiShoppingCart /></span><span className='text-sm'>{productCount}</span>
                     </div>
                 </Link>
               </li>
