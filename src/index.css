@@ -1,0 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.Category-overlay {
+    background: rgba(238, 233, 233, 0.5); /* Adjust opacity as needed */
+}
