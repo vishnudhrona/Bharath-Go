@@ -1,21 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Navbar from '../src/components/Navbar'
 import Searchbar from '../src/components/Searchbar'
-import Allproducts from '../src/components/Allproducts'
+import Furniturefilter from '../src/components/Furniturefilter'
 import Productdetails from '../src/components/Productdetails'
 import Cart from '../src/components/Cart'
 
-const Hompage = () => {  
-
+const Furniturepage = () => {
   return (
     <div>
       <Navbar />
       <Productdetails />
       <Cart />
       <Searchbar />
-      <Allproducts />
+      <Furniturefilter />
     </div>
   )
 }
 
-export default Hompage
+export default Furniturepage

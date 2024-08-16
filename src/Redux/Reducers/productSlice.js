@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-const initialState = { productId : null, closingProductSlot : null, cartClose : null, refresh : true }
+const initialState = { productId : null, closingProductSlot : null, cartClose : null, refresh : true, search : null }
 
 const produtSlice = createSlice({
     name: 'productDetails',
@@ -21,9 +21,13 @@ const produtSlice = createSlice({
 
         refresh(state, action) {
             state.refresh = action.payload
+        },
+
+        search(state, action) {
+            state.search = action.payload
         }
     }
 })
 
-export const { productId, closingProductSlot, cartClose, refresh } = produtSlice.actions
+export const { productId, closingProductSlot, cartClose, refresh, search } = produtSlice.actions
 export default produtSlice.reducer

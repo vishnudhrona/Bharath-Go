@@ -1,14 +1,14 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FiPlus } from "react-icons/fi";
-import { HiMiniCheckCircle } from "react-icons/hi2";
 import { useDispatch, useSelector } from 'react-redux';
 import { cartClose, closingProductSlot, productId, refresh } from '../Redux/Reducers/productSlice';
+import { HiMiniCheckCircle } from 'react-icons/hi2';
+import { FiPlus } from 'react-icons/fi';
 
-const Allproducts = () => {
+const Electronicsfilter = () => {
     const [products, setProducts] = useState([])
     const [shiverIndex, setShiverIndex] = useState(null);
-    const [cartProduct, setCartProduct] = useState([])    
+    const [cartProduct, setCartProduct] = useState([])
 
     const dispatch = useDispatch()
 
@@ -21,10 +21,11 @@ const Allproducts = () => {
         }
     }, [searchQery])
 
+
     useEffect(() => {
         axios.get('https://api.escuelajs.co/api/v1/products').then((response) => {
-            setProducts(response.data)
-            handleSearch()
+            const filteredProducts = response.data.filter((product) => product.category.name.toLowerCase() === 'electronics'.toLowerCase());
+            setProducts(filteredProducts)
         })
     }, [refreshRed])
 
@@ -50,11 +51,13 @@ const Allproducts = () => {
         storedProducts.push(product);
         localStorage.setItem('products', JSON.stringify(storedProducts));
 
-        setCartProduct(storedProducts.map(p => p.id));
+        setCartProduct(storedProducts.map(p => p.id)); 
 
         dispatch(refresh(false))
         dispatch(cartClose(true))
     }
+
+    const isProductInCart = (productId) => cartProduct.includes(productId);
 
     const productSearch = () => {
         const query = searchQery.toLowerCase()
@@ -65,9 +68,6 @@ const Allproducts = () => {
         })        
         setProducts(product)
     }
-
-    const isProductInCart = (productId) => cartProduct.includes(productId);
-
 
     return (
         <>
@@ -101,4 +101,4 @@ const Allproducts = () => {
     )
 }
 
-export default Allproducts
+export default Electronicsfilter

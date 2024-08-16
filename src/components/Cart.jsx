@@ -22,16 +22,13 @@ const Cart = () => {
 
     const closeCart = () => {
         dispatch(cartClose(false))
-        navigate('/myorders')
     }
 
     const deleteCartItem = (cartItemIndex) => {
         const updatedCart = cartProducts.filter((_, index) => index !== cartItemIndex);
         
-        // Update localStorage with the new array
         localStorage.setItem('products', JSON.stringify(updatedCart));
 
-        // Update state to re-render the component
         setCartProducts(updatedCart);
     }
 
@@ -43,10 +40,8 @@ const Cart = () => {
             return product;
         });
 
-        // Update localStorage with the new array
         localStorage.setItem('products', JSON.stringify(updatedCart));
 
-        // Update state to re-render the component
         setCartProducts(updatedCart);
     };
 
@@ -57,29 +52,35 @@ const Cart = () => {
                 if (newQuantity > 0) {
                     return { ...product, quantity: newQuantity };
                 }
-                return null; // Remove item if quantity becomes 0
+                return null; 
             }
             return product;
         }).filter(Boolean);
 
-        // Update localStorage with the new array
         localStorage.setItem('products', JSON.stringify(updatedCart));
 
-        // Update state to re-render the component
         setCartProducts(updatedCart);
     };
 
-    const handleCheckout = () => {
-        // Save the current cart items to a separate variable
-        localStorage.setItem('checkoutHistory', JSON.stringify({ cartItems: cartProducts, totalPrice }));
-
-        // Clear the cart
-        localStorage.removeItem('products');
-        setCartProducts([]);
-
-        // Optionally: Close the cart after checkout
-        closeCart();
+   const handleCheckout = () => {
+    const newPurchase = {
+        cartItems: cartProducts,
+        totalPrice,
+        date: new Date().toISOString() 
     };
+
+    const existingHistory = JSON.parse(localStorage.getItem('checkoutHistory')) || [];
+
+    const updatedHistory = [...existingHistory, newPurchase];
+
+    localStorage.setItem('checkoutHistory', JSON.stringify(updatedHistory));
+
+    localStorage.removeItem('products');
+    setCartProducts([]);
+
+    navigate('/myorders')
+};
+
 
     const totalPrice = cartProducts.reduce((acc, product) => acc + (product.price * (product.quantity || 1)), 0).toFixed(2);
     
