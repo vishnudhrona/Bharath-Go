@@ -85,10 +85,10 @@ const Toysfilter = () => {
 ))}
         </>
         ) : (
-            <div className='absolute flex flex-col ml-[430px] mt-32 w-32 '>
-                <img className='bg-white' src="https://i.pinimg.com/originals/44/a1/08/44a10892c5cb8dd690137339ded39af3.jpg" alt="" />
-                <h1>Nothing related :(</h1>
-            </div>
+            <div className='flex flex-col items-center justify-center w-full h-96'>
+            <img className='w-32 h-32 mb-4' src="https://i.pinimg.com/originals/44/a1/08/44a10892c5cb8dd690137339ded39af3.jpg" alt="No results" />
+            <h1 className='text-lg font-semibold text-gray-600'>Nothing related :(</h1>
+        </div>
         )}
         
     </div>
